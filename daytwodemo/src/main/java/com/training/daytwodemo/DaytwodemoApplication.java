@@ -13,10 +13,13 @@ public class DaytwodemoApplication {
         System.err.println("==========================Start of main() in DaytwodemoApplication=====================");
         Student student=new Student();
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConfigureBeans.class);
-        Books books=context.getBean(Books.class);
-        student.assignBook(books);
+        Books books1=context.getBean(Books.class);
+        Books books2=context.getBean(Books.class);
+
+        System.out.println("Books 1: "+books1);
+        System.out.println("Books 2: "+books2);//book2 Printing Same as book1 Because scope is Singleton
+        student.assignBook(books1);
         System.err.println("==========================End of main() in DaytwodemoApplication=====================");
-        student.assignBook(books);
     }
 
 }

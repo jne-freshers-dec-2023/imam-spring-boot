@@ -7,17 +7,14 @@ public class Costumer {
 
     private int id;
     private String name;
+
+    //Field Dependency Injection
+    @Autowired
     private Transaction transaction;
 
-    @Autowired
-    public Costumer() {
-        id = 0;
-        name = "";
-        transaction = null;
-    }
+    public Costumer() {}
 
-    //Constructor Dependency Injection can
-    @Autowired
+    //Constructor Dependency Injection
     public Costumer(int id, String name, Transaction transaction) {
         this.id = id;
         this.name = name;
@@ -38,7 +35,8 @@ public class Costumer {
 
     //Setter Dependency Injection
     @Autowired
-    public void setter(Transaction transaction) {
-        this.transaction = transaction;
+    public Transaction setterForTransaction() {
+        System.out.println("Setter injection for Transaction in coustumer");
+        return transaction;
     }
 }

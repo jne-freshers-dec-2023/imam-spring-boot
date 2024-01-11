@@ -41,17 +41,8 @@ public class DayonedemoApplication {
         runDemoTransactions(context);
         Costumer costumer = context.getBean("getCostumer", Costumer.class);
         Costumer costumerCDI = context.getBean("getCostumerCDI", Costumer.class);
-        Costumer costumerSDI = context.getBean("getCostumerSDI", Costumer.class);
         runDemoCostumer(costumer);
         runDemoCostumer(costumerCDI);
-        runDemoCostumer(costumerSDI);
-    }
-
-    @Bean
-    public Costumer getCostumerSDI() {
-        Costumer costumer = new Costumer();
-        costumer.setter(new Deposit());
-        return costumer;
     }
 
     @Bean
