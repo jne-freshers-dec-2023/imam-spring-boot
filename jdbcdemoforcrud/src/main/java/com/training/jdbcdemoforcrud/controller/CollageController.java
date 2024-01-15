@@ -35,7 +35,7 @@ public class CollageController {
         return collageService.getAllAddresssList();
     }
 
-    @PostMapping("/addDepartment")
+    @PostMapping("/adddepartment")
     public ResponseEntity<Department> addDepartment(@RequestBody Department department) {
         return new ResponseEntity<>(collageService.addDepartment(department), HttpStatus.OK);
     }
@@ -55,8 +55,23 @@ public class CollageController {
     }
        */
 
-    @PostMapping("/addStudent")
+    @PostMapping("/addstudent")
     public ResponseEntity<Student> addStudent(@RequestBody Student student) {
         return new ResponseEntity<>(collageService.addStudent(student), HttpStatus.OK);
+    }
+
+    @PostMapping("/student")
+    public ResponseEntity<Student> getStudent(@RequestParam int id) {
+        Student student = collageService.getStudent(id);
+        if (student != null) {
+            return new ResponseEntity<>(student, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(student, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/deletestudent")
+    public ResponseEntity<String> deleteStudent(@RequestParam int id) {
+        return new ResponseEntity<>(collageService.deleteStudent(id), HttpStatus.OK);
     }
 }

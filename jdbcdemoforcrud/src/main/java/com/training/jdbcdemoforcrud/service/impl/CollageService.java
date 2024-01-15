@@ -20,4 +20,8 @@ public interface CollageService {
 
     Student addStudent(Student student);
 
+    Student getStudent(int id);
+
+    String deleteStudent(int id);
+
 }

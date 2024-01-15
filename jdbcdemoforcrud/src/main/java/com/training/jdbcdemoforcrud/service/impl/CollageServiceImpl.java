@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CollageServiceImpl implements CollageService {
@@ -48,4 +49,20 @@ public class CollageServiceImpl implements CollageService {
         return studentRepository.save(student);
     }
 
+    @Override
+    public Student getStudent(int id) {
+        Optional<Student> optionalStudent=studentRepository.findById(id);
+        return (optionalStudent.isPresent()?optionalStudent.get():null);
+    }
+
+    @Override
+    public String deleteStudent(int id) {
+        Optional<Student> optionalStudent=studentRepository.findById(id);
+        if (optionalStudent.isPresent()){
+            studentRepository.deleteById(id);
+            return "Student Deleted Successpully";
+        } else{
+            return "Student Not Found";
+        }
+    }
 }
