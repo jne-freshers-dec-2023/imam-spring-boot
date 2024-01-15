@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
@@ -16,27 +17,45 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<Department> getAllDepartments() {
 
-        List<Department> departmentList=departmentRepository.findAll();
-        return departmentList;
+        return departmentRepository.findAll();
     }
 
     @Override
-    public void getDepartmentByID() {
+    public Department getDepartmentByID(int id) {
 
+        Optional<Department> department = departmentRepository.findById(id);
+        if (department.isPresent()) {
+            return department.get();
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public void addDepartment() {
-
+    public Department addDepartment(Department department) {
+        return departmentRepository.save(department);
     }
 
     @Override
-    public void updateDepartment() {
+    public boolean updateDepartment(Department department) {
 
+        if(departmentRepository.existsById(department.getDeptId())){
+            departmentRepository.save(department);
+            return true;
+        } else{
+            departmentRepository.save(department);
+            return false;
+        }
     }
 
     @Override
-    public void deleteDepartmentById() {
+    public boolean deleteDepartmentById(int id) {
 
+        if(departmentRepository.existsById(id)){
+            departmentRepository.deleteById(id);
+            return true;
+        } else{
+            return false;
+        }
     }
 }
