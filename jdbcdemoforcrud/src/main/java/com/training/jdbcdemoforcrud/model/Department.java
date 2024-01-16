@@ -1,7 +1,11 @@
 package com.training.jdbcdemoforcrud.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+import java.util.List;
+
+@Data
 @Entity(name = "department")
 public class Department {
     @Id
@@ -12,23 +16,6 @@ public class Department {
     @Column(name = "dept_name")
     private String name;
 
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Department{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "department")
+    private List<Student> student;
 }

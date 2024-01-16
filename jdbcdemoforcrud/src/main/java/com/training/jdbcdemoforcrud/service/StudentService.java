@@ -1,4 +1,4 @@
-package com.training.jdbcdemoforcrud.service.impl;
+package com.training.jdbcdemoforcrud.service;
 
 import com.training.jdbcdemoforcrud.model.Address;
 import com.training.jdbcdemoforcrud.model.Department;
@@ -8,20 +8,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public interface CollageService {
+public interface StudentService {
 
     List<Student> getAllStudentList();
 
-    List<Department> getAllDepartmentsList();
-
-    List<Address> getAllAddresssList();
-
-    Department addDepartment(Department department);
+    Student getStudent(int id);
 
     Student addStudent(Student student);
 
-    Student getStudent(int id);
-
-    String deleteStudent(int id);
+    void deleteStudent(int id);
 
 }
