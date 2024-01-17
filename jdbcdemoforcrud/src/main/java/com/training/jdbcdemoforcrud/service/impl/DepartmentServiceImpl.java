@@ -1,10 +1,11 @@
 package com.training.jdbcdemoforcrud.service.impl;
 
 import com.training.jdbcdemoforcrud.exception.DepartmentNotFoundException;
-import com.training.jdbcdemoforcrud.log.Logger;
 import com.training.jdbcdemoforcrud.model.Department;
 import com.training.jdbcdemoforcrud.repository.DepartmentRepository;
 import com.training.jdbcdemoforcrud.service.DepartmentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,7 @@ import java.util.Optional;
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
-    @Autowired
-    Logger logger;
+    Logger logger = LoggerFactory.getLogger(DepartmentServiceImpl.class);
     @Autowired
     DepartmentRepository departmentRepository;
 

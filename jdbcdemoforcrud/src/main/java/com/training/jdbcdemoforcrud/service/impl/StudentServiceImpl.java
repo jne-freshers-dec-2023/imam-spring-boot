@@ -1,10 +1,11 @@
 package com.training.jdbcdemoforcrud.service.impl;
 
 import com.training.jdbcdemoforcrud.exception.StudentNotFoundException;
-import com.training.jdbcdemoforcrud.log.Logger;
 import com.training.jdbcdemoforcrud.model.Student;
 import com.training.jdbcdemoforcrud.repository.StudentRepository;
 import com.training.jdbcdemoforcrud.service.StudentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,7 @@ import java.util.Optional;
 @Service
 public class StudentServiceImpl implements StudentService {
 
-    @Autowired()
-    Logger logger;
+    Logger logger= LoggerFactory.getLogger(StudentServiceImpl.class);
     @Autowired
     StudentRepository studentRepository;
 
