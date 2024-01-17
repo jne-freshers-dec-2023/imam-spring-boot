@@ -1,4 +1,4 @@
-package com.training.jdbcdemoforcrud.model;
+package com.training.jdbcdemoforcrud.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -19,6 +19,6 @@ public class Student {
     @JoinColumn(name = "fk_add")
     private Address address;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Department department;
+    @Column(name = "fk_dept")
+    private int deptId;
 }

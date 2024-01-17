@@ -1,4 +1,4 @@
-package com.training.jdbcdemoforcrud.model;
+package com.training.jdbcdemoforcrud.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

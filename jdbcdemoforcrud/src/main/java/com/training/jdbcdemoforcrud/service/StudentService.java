@@ -1,8 +1,7 @@
 package com.training.jdbcdemoforcrud.service;
 
-import com.training.jdbcdemoforcrud.model.Address;
-import com.training.jdbcdemoforcrud.model.Department;
-import com.training.jdbcdemoforcrud.model.Student;
+import com.training.jdbcdemoforcrud.model.request.StudentRequest;
+import com.training.jdbcdemoforcrud.model.response.StudentResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,11 +9,11 @@ import java.util.List;
 @Service
 public interface StudentService {
 
-    List<Student> getAllStudentList();
+    List<StudentResponse> getAllStudentList();
 
-    Student getStudent(int id);
+    StudentResponse getStudent(int id);
 
-    Student addStudent(Student student);
+    StudentResponse addStudent(StudentRequest studentRequest);
 
     void deleteStudent(int id);
 

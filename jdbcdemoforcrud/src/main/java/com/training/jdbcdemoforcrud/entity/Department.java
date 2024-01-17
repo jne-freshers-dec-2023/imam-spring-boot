@@ -1,9 +1,7 @@
-package com.training.jdbcdemoforcrud.model;
+package com.training.jdbcdemoforcrud.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 @Entity(name = "department")
@@ -15,7 +13,4 @@ public class Department {
 
     @Column(name = "dept_name")
     private String name;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "department")
-    private List<Student> student;
 }

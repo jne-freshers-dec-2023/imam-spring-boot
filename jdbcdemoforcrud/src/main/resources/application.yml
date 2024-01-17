@@ -1,6 +1,9 @@
 spring:
-  h2:
-    console:
-      enabled: true
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: jdbc:postgresql://localhost:5432/DBDAYONE
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
