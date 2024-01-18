@@ -22,8 +22,19 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(departmentNotFoundException.getMessage(),HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> userNotFoundExceptionHandler(UserNotFoundException userNotFoundException){
+        return new ResponseEntity<>(userNotFoundException.getMessage(),HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity<String> roleNotFoundExceptionHandler(RoleNotFoundException roleNotFoundException){
+        return new ResponseEntity<>(roleNotFoundException.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> runtimeExceptionHandler(RuntimeException runtimeException){
         return new ResponseEntity<>("Internal Server Error ",HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }

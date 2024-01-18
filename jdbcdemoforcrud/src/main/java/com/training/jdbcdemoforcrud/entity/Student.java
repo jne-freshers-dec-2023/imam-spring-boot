@@ -2,15 +2,19 @@ package com.training.jdbcdemoforcrud.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
+
+import java.util.UUID;
 
 @Data
 @Entity(name = "student")
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "std_id")
-    private int id;
+    @UuidGenerator
+    @Column(name = "uuid")
+    private UUID uuid;
 
     @Column(name = "std_name")
     private String name;
@@ -20,5 +24,5 @@ public class Student {
     private Address address;
 
     @Column(name = "fk_dept")
-    private int deptId;
+    private UUID deptId;
 }

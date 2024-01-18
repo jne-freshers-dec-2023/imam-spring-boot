@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -44,13 +45,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentResponse getStudent(int id) {
+    public StudentResponse getStudent(UUID uuid) {
         log.info("Retrieving a student data from student table with provided id");
-        Optional<Student> optionalStudent = studentRepository.findById(id);
+        Optional<Student> optionalStudent = studentRepository.findByUuid(uuid);
         if (optionalStudent.isPresent()) {
             return toStudentResponse(optionalStudent.get());
         } else {
-            throw new StudentNotFoundException("Student not found with given id: " + id);
+            throw new StudentNotFoundException("Student not found with given id: " + uuid);
         }
     }
     @Override
@@ -60,12 +61,13 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void deleteStudent(int id) {
+    public String deleteStudent(UUID uuid) {
         log.info("Deleting a student from student table with provided id");
-        if (studentRepository.existsById(id)) {
-            studentRepository.deleteById(id);
+        if (studentRepository.existsByUuid(uuid)) {
+            studentRepository.deleteByUuid(uuid);
+            return ("Student Data deleted with provided id: "+uuid);
         } else {
-            throw new StudentNotFoundException("Student not found with given id: " + id);
+            throw new StudentNotFoundException("Student not found with given id: " + uuid);
         }
     }
     public Student toStudent(StudentRequest studentRequest){
@@ -73,14 +75,14 @@ public class StudentServiceImpl implements StudentService {
         Student student=new Student();
         student.setName(studentRequest.getName());
         student.setAddress(studentRequest.getAddress());
-        student.setDeptId(departmentService.getDepartment(studentRequest.getDeptID()).getId());
+        student.setDeptId(departmentService.getDepartment(studentRequest.getDeptID()).getUuid());
         return student;
     }
 
     public StudentResponse toStudentResponse(Student student){
         log.info("Converting Student to StudentResponse");
         StudentResponse studentResponse=new StudentResponse();
-        studentResponse.setId(student.getId());
+        studentResponse.setUuid(student.getUuid());
         studentResponse.setName(student.getName());
         studentResponse.setAddress(student.getAddress());
         studentResponse.setDepartment(toDepartment(departmentService.getDepartment(student.getDeptId())));
@@ -88,8 +90,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     public Department toDepartment(DepartmentResponse departmentResponse){
+        log.info("Converting DepartmentResponse to Department");
         Department department=new Department();
-        department.setId(departmentResponse.getId());
+        department.setUuid(departmentResponse.getUuid());
         department.setName(departmentResponse.getName());
         return department;
     }

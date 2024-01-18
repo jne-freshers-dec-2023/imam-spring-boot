@@ -9,22 +9,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 //http://localhost:8080/collage/student
 @RestController
-@RequestMapping("/collage/student")
+@RequestMapping(path = "/collage/student")
 public class StudentController {
     @Autowired
     StudentService studentService;
 
-    @GetMapping()
+    @GetMapping(path = "/all")
     public ResponseEntity<List<StudentResponse>> getStudents() {
         return (new ResponseEntity<>(studentService.getAllStudentList(),HttpStatus.OK));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<StudentResponse> getStudent(@PathVariable int id) {
-        return new ResponseEntity<>(studentService.getStudent(id), HttpStatus.OK);
+    @GetMapping(path = "/single")
+    public ResponseEntity<StudentResponse> getStudent(@RequestParam(name = "uuid") UUID uuid) {
+        return new ResponseEntity<>(studentService.getStudent(uuid), HttpStatus.OK);
     }
 /*
 {
@@ -43,9 +44,8 @@ public class StudentController {
         return new ResponseEntity<>(studentService.addStudent(studentRequest), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(value = HttpStatus.OK, reason = "Deleted")
-    public void deleteStudent(@PathVariable int id) {
-        studentService.deleteStudent(id);
+    @DeleteMapping()
+    public ResponseEntity<String> deleteStudent(@RequestParam("uuid") UUID uuid) {
+        return new ResponseEntity<>(studentService.deleteStudent(uuid), HttpStatus.OK);
     }
 }

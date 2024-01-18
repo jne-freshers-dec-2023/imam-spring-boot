@@ -1,6 +1,5 @@
 package com.training.jdbcdemoforcrud.controller;
 
-import com.training.jdbcdemoforcrud.entity.Department;
 import com.training.jdbcdemoforcrud.model.request.DepartmentRequest;
 import com.training.jdbcdemoforcrud.model.response.DepartmentResponse;
 import com.training.jdbcdemoforcrud.service.DepartmentService;
@@ -10,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 //http://localhost:8080/collage/department
 @RestController
@@ -18,15 +18,15 @@ public class DepartmentController {
     @Autowired
     DepartmentService departmentService;
 
-    @GetMapping()
+    @GetMapping(path = "/all")
     public ResponseEntity<List<DepartmentResponse>> getDepartments() {
         return (new ResponseEntity<>(departmentService.getAllDepartmentsList(),HttpStatus.OK));
 
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<DepartmentResponse> getDepartment(@PathVariable int id) {
-        return (new ResponseEntity<>(departmentService.getDepartment(id),HttpStatus.OK));
+    @GetMapping(path = "/single")
+    public ResponseEntity<DepartmentResponse> getDepartment(@RequestParam(name = "uuid")UUID uuid) {
+        return (new ResponseEntity<>(departmentService.getDepartment(uuid),HttpStatus.OK));
     }
 /*
 {
@@ -38,9 +38,8 @@ public class DepartmentController {
         return new ResponseEntity<>(departmentService.addDepartment(departmentRequest), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(value = HttpStatus.OK , reason = "Deleted")
-    public void deleteDepartment(@PathVariable int id) {
-        departmentService.deleteDepartment(id);
+    @DeleteMapping()
+    public ResponseEntity<String> deleteDepartment(@RequestParam(name = "uuid")UUID uuid) {
+        return new ResponseEntity<>(departmentService.deleteDepartment(uuid), HttpStatus.OK);
     }
 }

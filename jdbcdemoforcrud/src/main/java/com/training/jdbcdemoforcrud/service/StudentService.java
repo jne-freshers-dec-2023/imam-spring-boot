@@ -5,16 +5,17 @@ import com.training.jdbcdemoforcrud.model.response.StudentResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public interface StudentService {
 
     List<StudentResponse> getAllStudentList();
 
-    StudentResponse getStudent(int id);
+    StudentResponse getStudent(UUID uuid);
 
     StudentResponse addStudent(StudentRequest studentRequest);
 
-    void deleteStudent(int id);
+    String deleteStudent(UUID uuid);
 
 }

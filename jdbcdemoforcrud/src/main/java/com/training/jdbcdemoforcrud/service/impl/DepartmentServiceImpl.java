@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -49,23 +50,24 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public DepartmentResponse getDepartment(int id) {
+    public DepartmentResponse getDepartment(UUID uuid) {
         log.info("Retrieving a department with provided id");
-        Optional<Department> department = departmentRepository.findById(id);
+        Optional<Department> department = departmentRepository.findByUuid(uuid);
         if (department.isPresent()) {
             return toDepartmentResponse(department.get());
         } else {
-            throw new DepartmentNotFoundException("Department Not found with provided ID: " + id);
+            throw new DepartmentNotFoundException("Department Not found with provided ID: " + uuid);
         }
     }
 
     @Override
-    public void deleteDepartment(int id) {
+    public String deleteDepartment(UUID uuid) {
         log.info("Deleting a department from department table with provided id");
-        if (departmentRepository.existsById(id)) {
-            departmentRepository.deleteById(id);
+        if (departmentRepository.existsByUuid(uuid)) {
+            departmentRepository.deleteByUuid(uuid);
+            return ("Department Deleted with provided id: "+uuid);
         } else {
-            throw new DepartmentNotFoundException("Department Not found with provided ID: " + id);
+            throw new DepartmentNotFoundException("Department Not found with provided ID: " + uuid);
         }
     }
 
@@ -79,7 +81,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public DepartmentResponse toDepartmentResponse(Department department) {
         log.info("Converting Department to DepartmentResponse");
         DepartmentResponse departmentResponse = new DepartmentResponse();
-        departmentResponse.setId(department.getId());
+        departmentResponse.setUuid(department.getUuid());
         departmentResponse.setName(department.getName());
         return departmentResponse;
     }

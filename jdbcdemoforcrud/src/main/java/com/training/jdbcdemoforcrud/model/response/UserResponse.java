@@ -7,7 +7,8 @@ import java.util.UUID;
 
 @Component
 @Data
-public class DepartmentResponse {
-    public UUID uuid;
-    public String name;
+public class UserResponse {
+    UUID id;
+    String name;
+    String role;
 }
