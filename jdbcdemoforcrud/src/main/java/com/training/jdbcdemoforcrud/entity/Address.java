@@ -3,7 +3,6 @@ package com.training.jdbcdemoforcrud.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.id.uuid.UuidGenerator;
 
 @Data
 @Entity(name = "address")

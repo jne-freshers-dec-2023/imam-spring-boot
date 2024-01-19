@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,27 +20,27 @@ public class DepartmentController {
     DepartmentService departmentService;
 
     @GetMapping(path = "/all")
-    public ResponseEntity<List<DepartmentResponse>> getDepartments() {
-        return (new ResponseEntity<>(departmentService.getAllDepartmentsList(),HttpStatus.OK));
+    public ResponseEntity<List<DepartmentResponse>> getDepartments(WebRequest webRequest) {
+        return (new ResponseEntity<>(departmentService.getAllDepartmentsList(webRequest), HttpStatus.OK));
 
     }
 
     @GetMapping(path = "/single")
-    public ResponseEntity<DepartmentResponse> getDepartment(@RequestParam(name = "uuid")UUID uuid) {
-        return (new ResponseEntity<>(departmentService.getDepartment(uuid),HttpStatus.OK));
+    public ResponseEntity<DepartmentResponse> getDepartment(WebRequest webRequest, @RequestParam(name = "uuid") UUID uuid) {
+        return (new ResponseEntity<>(departmentService.getDepartment(uuid, webRequest), HttpStatus.OK));
     }
 /*
 {
     "name": "dev"
 }
 */
-    @PostMapping()
-    public ResponseEntity<DepartmentResponse> addDepartment(@RequestBody DepartmentRequest departmentRequest) {
-        return new ResponseEntity<>(departmentService.addDepartment(departmentRequest), HttpStatus.CREATED);
+@PostMapping(path = "/add")
+public ResponseEntity<DepartmentResponse> addDepartment(WebRequest webRequest, @RequestBody DepartmentRequest departmentRequest) {
+    return new ResponseEntity<>(departmentService.addDepartment(departmentRequest, webRequest), HttpStatus.CREATED);
     }
 
-    @DeleteMapping()
-    public ResponseEntity<String> deleteDepartment(@RequestParam(name = "uuid")UUID uuid) {
-        return new ResponseEntity<>(departmentService.deleteDepartment(uuid), HttpStatus.OK);
+    @DeleteMapping(path = "/delete")
+    public ResponseEntity<String> deleteDepartment(WebRequest webRequest, @RequestParam(name = "uuid") UUID uuid) {
+        return new ResponseEntity<>(departmentService.deleteDepartment(uuid, webRequest), HttpStatus.OK);
     }
 }

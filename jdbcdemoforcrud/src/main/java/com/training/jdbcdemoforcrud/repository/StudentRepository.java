@@ -1,7 +1,6 @@
 package com.training.jdbcdemoforcrud.repository;
 
 import com.training.jdbcdemoforcrud.entity.Student;
-import com.training.jdbcdemoforcrud.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -3,6 +3,7 @@ package com.training.jdbcdemoforcrud.service;
 import com.training.jdbcdemoforcrud.model.request.UserRequest;
 import com.training.jdbcdemoforcrud.model.response.UserResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,8 +12,11 @@ import java.util.UUID;
 public interface UserService {
 
 
-    List<UserResponse> getAllUsers();
-    UserResponse getUser(UUID uuid);
-    UserResponse addUser(UserRequest userRequest);
-    String deleteUser(UUID uuid);
+    List<UserResponse> getAllUsers(WebRequest webRequest);
+
+    UserResponse getUser(UUID uuid, WebRequest webRequest);
+
+    UserResponse addUser(UserRequest userRequest, WebRequest webRequest);
+
+    String deleteUser(UUID uuid, WebRequest webRequest);
 }

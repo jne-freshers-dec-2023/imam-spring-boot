@@ -1,20 +1,18 @@
 package com.training.jdbcdemoforcrud.service.impl;
 
 import com.training.jdbcdemoforcrud.entity.Department;
-import com.training.jdbcdemoforcrud.exception.DepartmentAlreadyExistException;
-import com.training.jdbcdemoforcrud.exception.DepartmentNotFoundException;
+import com.training.jdbcdemoforcrud.exception.GlobalException;
 import com.training.jdbcdemoforcrud.model.request.DepartmentRequest;
 import com.training.jdbcdemoforcrud.model.response.DepartmentResponse;
 import com.training.jdbcdemoforcrud.repository.DepartmentRepository;
 import com.training.jdbcdemoforcrud.service.DepartmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.WebRequest;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -24,7 +22,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     DepartmentRepository departmentRepository;
 
     @Override
-    public List<DepartmentResponse> getAllDepartmentsList() {
+    public List<DepartmentResponse> getAllDepartmentsList(WebRequest webRequest) {
         log.info("Retrieving all departments from department table");
         List<Department> departmentList = departmentRepository.findAll();
         if (!departmentList.isEmpty()) {
@@ -34,40 +32,40 @@ public class DepartmentServiceImpl implements DepartmentService {
             }
             return departmentResponseList;
         } else {
-            throw new DepartmentNotFoundException("Departments are not Available");
+            throw new GlobalException("Departments are not Available", HttpStatus.NOT_FOUND, new Date(), webRequest.getDescription(false));
         }
     }
 
     @Override
-    public DepartmentResponse addDepartment(DepartmentRequest departmentRequest) {
+    public DepartmentResponse addDepartment(DepartmentRequest departmentRequest, WebRequest webRequest) {
         log.info("Adding new Department in department table");
         Optional<Department> department = departmentRepository.findByName(departmentRequest.getName());
         if (!department.isPresent()) {
             return toDepartmentResponse(departmentRepository.save(toDepartment(departmentRequest)));
         } else {
-            throw new DepartmentAlreadyExistException("Department Already Exist");
+            throw (new GlobalException("Department Already Exist", HttpStatus.FOUND, new Date(), webRequest.getDescription(false)));
         }
     }
 
     @Override
-    public DepartmentResponse getDepartment(UUID uuid) {
+    public DepartmentResponse getDepartment(UUID uuid, WebRequest webRequest) {
         log.info("Retrieving a department with provided id");
         Optional<Department> department = departmentRepository.findByUuid(uuid);
         if (department.isPresent()) {
             return toDepartmentResponse(department.get());
         } else {
-            throw new DepartmentNotFoundException("Department Not found with provided ID: " + uuid);
+            throw new GlobalException("Department Not found with provided ID:" + uuid, HttpStatus.NOT_FOUND, new Date(), webRequest.getDescription(false));
         }
     }
 
     @Override
-    public String deleteDepartment(UUID uuid) {
+    public String deleteDepartment(UUID uuid, WebRequest webRequest) {
         log.info("Deleting a department from department table with provided id");
         if (departmentRepository.existsByUuid(uuid)) {
             departmentRepository.deleteByUuid(uuid);
-            return ("Department Deleted with provided id: "+uuid);
+            return ("Department Deleted with provided id:" + uuid);
         } else {
-            throw new DepartmentNotFoundException("Department Not found with provided ID: " + uuid);
+            throw new GlobalException("Department Not found with provided ID: " + uuid, HttpStatus.NOT_FOUND, new Date(), webRequest.getDescription(false));
         }
     }
 

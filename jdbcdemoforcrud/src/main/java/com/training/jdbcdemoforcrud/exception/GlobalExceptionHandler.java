@@ -1,40 +1,26 @@
 package com.training.jdbcdemoforcrud.exception;
 
+import com.training.jdbcdemoforcrud.model.response.ExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(StudentNotFoundException.class)
-    public ResponseEntity<String> studentNotFoundExceptionHandler(StudentNotFoundException studentNotFoundException) {
-        return new ResponseEntity<>(studentNotFoundException.getMessage(),HttpStatus.NOT_FOUND);
+    @ExceptionHandler(GlobalException.class)
+    public ResponseEntity<ExceptionResponse> globalExceptionHandler(GlobalException globalException) {
+        return new ResponseEntity<>(new ExceptionResponse(globalException.message, globalException.httpStatus, globalException.timeStamp, globalException.details), globalException.httpStatus);
     }
 
-    @ExceptionHandler(DepartmentAlreadyExistException.class)
-    public ResponseEntity<String> departmentAlreadyExistExceptionHandler(DepartmentAlreadyExistException departmentAlreadyExistException){
-       return new ResponseEntity<>(departmentAlreadyExistException.getMessage(),HttpStatus.FOUND);
-    }
-    @ExceptionHandler(DepartmentNotFoundException.class)
-    public ResponseEntity<String> departmentNotFoundExceptionHandler(DepartmentNotFoundException departmentNotFoundException){
-        return new ResponseEntity<>(departmentNotFoundException.getMessage(),HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<String> userNotFoundExceptionHandler(UserNotFoundException userNotFoundException){
-        return new ResponseEntity<>(userNotFoundException.getMessage(),HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(RoleNotFoundException.class)
-    public ResponseEntity<String> roleNotFoundExceptionHandler(RoleNotFoundException roleNotFoundException){
-        return new ResponseEntity<>(roleNotFoundException.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> runtimeExceptionHandler(RuntimeException runtimeException){
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> runtimeExceptionHandler(Exception runtimeException) {
         return new ResponseEntity<>("Internal Server Error ",HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<String> runtimeExceptionHandler(MissingServletRequestParameterException exception) {
+        return new ResponseEntity<>("Missing Data in The Request",HttpStatus.BAD_REQUEST);
+    }
 }

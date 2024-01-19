@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,24 +19,24 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping
-    public ResponseEntity<List<UserResponse>> getUsers() {
-        return (new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK));
+    @GetMapping(path = "/all")
+    public ResponseEntity<List<UserResponse>> getUsers(WebRequest webRequest) {
+        return (new ResponseEntity<>(userService.getAllUsers(webRequest), HttpStatus.OK));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUser(@PathVariable UUID uuid) {
-        return (new ResponseEntity<>(userService.getUser(uuid), HttpStatus.OK));
+    @GetMapping(path = "/single")
+    public ResponseEntity<UserResponse> getUser(WebRequest webRequest, @RequestParam(name = "uuid") UUID uuid) {
+        return (new ResponseEntity<>(userService.getUser(uuid, webRequest), HttpStatus.OK));
     }
 
-    @PostMapping
-    public ResponseEntity<UserResponse> addUser(@RequestBody UserRequest userRequest) {
-        return (new ResponseEntity<>(userService.addUser(userRequest),HttpStatus.CREATED));
+    @PostMapping(path = "/add")
+    public ResponseEntity<UserResponse> addUser(WebRequest webRequest, @RequestBody UserRequest userRequest) {
+        return (new ResponseEntity<>(userService.addUser(userRequest, webRequest), HttpStatus.CREATED));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable UUID uuid) {
-        return (new ResponseEntity<>(userService.deleteUser(uuid),HttpStatus.OK));
+    @DeleteMapping(path = "/delete")
+    public ResponseEntity<String> deleteUser(WebRequest webRequest, @RequestParam(name = "uuid") UUID uuid) {
+        return (new ResponseEntity<>(userService.deleteUser(uuid, webRequest), HttpStatus.OK));
     }
 
 }
