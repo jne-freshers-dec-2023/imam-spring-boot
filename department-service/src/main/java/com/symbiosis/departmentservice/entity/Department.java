@@ -2,14 +2,18 @@ package com.symbiosis.departmentservice.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.UuidGenerator;
+
+import java.util.UUID;
 
 @Data
 @Entity(name = "department")
 public class Department {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "dept_id")
-    int deptId;
+    @UuidGenerator
+    @Column(name = "uuid")
+    private UUID uuid;
+
     @Column(name = "dept_name")
-    String deptName;
+    private String name;
 }
