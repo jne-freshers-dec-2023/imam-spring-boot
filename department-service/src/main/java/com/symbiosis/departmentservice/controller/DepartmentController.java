@@ -22,14 +22,14 @@ public class DepartmentController {
     DepartmentService departmentService;
 
     @GetMapping(path = "/all")
-    public ResponseEntity<List<DepartmentResponse>> getDepartments(WebRequest webRequest) {
-        return (new ResponseEntity<>(departmentService.getAllDepartmentsList(webRequest), HttpStatus.OK));
+    public ResponseEntity<List<DepartmentResponse>> getDepartments() {
+        return (new ResponseEntity<>(departmentService.getAllDepartmentsList(), HttpStatus.OK));
 
     }
 
     @GetMapping(path = "/single")
-    public ResponseEntity<DepartmentResponse> getDepartment(WebRequest webRequest, @RequestParam(name = "uuid") UUID uuid) {
-        return (new ResponseEntity<>(departmentService.getDepartment(uuid, webRequest), HttpStatus.OK));
+    public ResponseEntity<DepartmentResponse> getDepartment(@RequestParam(name = "uuid") UUID uuid) {
+        return (new ResponseEntity<>(departmentService.getDepartment(uuid), HttpStatus.OK));
     }
 
     /*

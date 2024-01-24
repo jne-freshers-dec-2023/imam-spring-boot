@@ -15,6 +15,4 @@ import java.util.Date;
 public class GlobalException extends RuntimeException {
     String message;
     HttpStatus httpStatus;
-    Date timeStamp;
-    String details;
 }

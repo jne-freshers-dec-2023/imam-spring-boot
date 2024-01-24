@@ -6,13 +6,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+
+import java.util.Date;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(GlobalException.class)
-    public ResponseEntity<ExceptionResponse> globalExceptionHandler(GlobalException globalException) {
-        return new ResponseEntity<>(new ExceptionResponse(globalException.message, globalException.httpStatus, globalException.timeStamp, globalException.details), globalException.httpStatus);
+    public ResponseEntity<ExceptionResponse> globalExceptionHandler(GlobalException globalException, WebRequest webRequest) {
+        return new ResponseEntity<>(new ExceptionResponse(globalException.message, globalException.httpStatus, new Date(), webRequest.getDescription(false)), globalException.httpStatus);
     }
 
     @ExceptionHandler(Exception.class)

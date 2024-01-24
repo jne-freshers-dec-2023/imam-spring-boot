@@ -11,9 +11,9 @@ import java.util.UUID;
 
 @Service
 public interface DepartmentService {
-    List<DepartmentResponse> getAllDepartmentsList(WebRequest webRequest);
+    List<DepartmentResponse> getAllDepartmentsList();
 
-    DepartmentResponse getDepartment(UUID uuid, WebRequest webRequest);
+    DepartmentResponse getDepartment(UUID uuid);
 
     DepartmentResponse addDepartment(DepartmentRequest departmentRequest, WebRequest webRequest);
 

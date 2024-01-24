@@ -15,5 +15,5 @@ public class StudentResponse {
     private UUID uuid;
     private String name;
     private Address address;
-    private UUID deptId;
+    private DepartmentResponse department;
 }

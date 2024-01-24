@@ -22,7 +22,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     DepartmentRepository departmentRepository;
 
     @Override
-    public List<DepartmentResponse> getAllDepartmentsList(WebRequest webRequest) {
+    public List<DepartmentResponse> getAllDepartmentsList() {
         log.info("Retrieving all departments from department table");
         List<Department> departmentList = departmentRepository.findAll();
         if (!departmentList.isEmpty()) {
@@ -32,7 +32,7 @@ public class DepartmentServiceImpl implements DepartmentService {
             }
             return departmentResponseList;
         } else {
-            throw new GlobalException("Departments are not Available", HttpStatus.NOT_FOUND, new Date(), webRequest.getDescription(false));
+            throw new GlobalException("Departments are not Available", HttpStatus.NOT_FOUND, new Date(),null);
         }
     }
 
@@ -48,13 +48,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public DepartmentResponse getDepartment(UUID uuid, WebRequest webRequest) {
+    public DepartmentResponse getDepartment(UUID uuid) {
         log.info("Retrieving a department with provided id");
         Optional<Department> department = departmentRepository.findByUuid(uuid);
         if (department.isPresent()) {
             return toDepartmentResponse(department.get());
         } else {
-            throw new GlobalException("Department Not found with provided ID:" + uuid, HttpStatus.NOT_FOUND, new Date(), webRequest.getDescription(false));
+            throw new GlobalException("Department Not found with provided ID:" + uuid, HttpStatus.NOT_FOUND, new Date(), null);
         }
     }
     @Override

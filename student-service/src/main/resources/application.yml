@@ -1,10 +1,20 @@
 spring:
+  application:
+    name: student-service
   datasource:
     url: jdbc:postgresql://localhost:5432/symbiosis
     username: postgres
     password: postgres
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+    show-sql: true
 server:
   port : 8081
+#eureka:
+#  client:
+#    eureka-server-port: 8761
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/
