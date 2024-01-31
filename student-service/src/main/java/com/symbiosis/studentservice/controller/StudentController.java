@@ -6,7 +6,6 @@ import com.symbiosis.studentservice.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 
 import java.util.UUID;
 
@@ -16,7 +15,7 @@ import static com.symbiosis.studentservice.constants.StudentServiceConstants.*;
 
 //http://localhost:8081/api/v1/symbiosis/student
 @RestController
-@RequestMapping(path = STUDENT_CONTROLLER)
+@RequestMapping(path = "/api/v1/symbiosis/student")
 public class StudentController {
     private final StudentService studentService;
 

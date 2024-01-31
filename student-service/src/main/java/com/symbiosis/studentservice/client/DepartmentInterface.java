@@ -1,4 +1,4 @@
-package com.symbiosis.studentservice.feign;
+package com.symbiosis.studentservice.client;
 
 import com.symbiosis.studentservice.model.response.DepartmentResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.UUID;
 
-@FeignClient("DEPARTMENT-SERVICE")
+@FeignClient(value = "DEPARTMENT-SERVICE")
 public interface DepartmentInterface {
 
     @GetMapping(path = "/symbiosis/department/all")

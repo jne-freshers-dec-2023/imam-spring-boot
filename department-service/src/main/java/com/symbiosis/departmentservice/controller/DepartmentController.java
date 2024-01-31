@@ -23,6 +23,7 @@ public class DepartmentController {
 
     @GetMapping(path = "/all")
     public ResponseEntity<List<DepartmentResponse>> getDepartments() {
+        System.out.println("Department called");
         return (new ResponseEntity<>(departmentService.getAllDepartmentsList(), HttpStatus.OK));
 
     }

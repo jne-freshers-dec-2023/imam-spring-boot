@@ -2,7 +2,7 @@ package com.symbiosis.studentservice.service.impl;
 
 import com.symbiosis.studentservice.entity.Student;
 import com.symbiosis.studentservice.exception.GlobalException;
-import com.symbiosis.studentservice.feign.DepartmentInterface;
+import com.symbiosis.studentservice.client.DepartmentInterface;
 import com.symbiosis.studentservice.model.request.StudentRequest;
 import com.symbiosis.studentservice.model.response.DepartmentResponse;
 import com.symbiosis.studentservice.model.response.GlobalResponse;
