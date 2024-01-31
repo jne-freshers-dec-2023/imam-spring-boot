@@ -1,8 +1,4 @@
 spring:
-  security:
-    user:
-      name: name
-      password: password
   datasource:
     url: jdbc:postgresql://localhost:5432/DBDAYONE
     username: postgres

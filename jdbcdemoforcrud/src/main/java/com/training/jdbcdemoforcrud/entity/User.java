@@ -15,8 +15,13 @@ public class User {
     @Id
     @UuidGenerator
     private UUID uuid;
+
     @Column(name = "user_name")
     String name;
+
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "user_role")
     String role;
 }

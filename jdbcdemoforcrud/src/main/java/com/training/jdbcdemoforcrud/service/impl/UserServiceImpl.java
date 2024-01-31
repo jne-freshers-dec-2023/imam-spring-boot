@@ -50,7 +50,11 @@ public class UserServiceImpl implements UserService {
     public UserResponse addUser(UserRequest userRequest, WebRequest webRequest) {
         log.info("Adding new user to user table");
         if(checkRole(userRequest.getRole().toUpperCase())) {
-            return toUserResponse(userRepository.save(getUser(userRequest)));
+            if (!userRepository.existsByNameAndPassword(userRequest.getUserName(),userRequest.getPassword())) {
+                return toUserResponse(userRepository.save(getUser(userRequest)));
+            } else {
+                throw new GlobalException("Provided Username is Not Available", HttpStatus.NOT_ACCEPTABLE, new Date(), webRequest.getDescription(false));
+            }
         } else {
             throw new GlobalException("Provided Role is Not Valid", HttpStatus.NOT_FOUND, new Date(), webRequest.getDescription(false));
         }
@@ -71,7 +75,8 @@ public class UserServiceImpl implements UserService {
     public User getUser(UserRequest userRequest){
         log.info("Converting UserRequest to User");
         User user=new User();
-        user.setName(userRequest.getName());
+        user.setName(userRequest.getUserName());
+        user.setPassword(userRequest.getPassword());
         user.setRole(userRequest.getRole().toUpperCase());
         return user;
     }
