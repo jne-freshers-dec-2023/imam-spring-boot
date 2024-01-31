@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: routToDepartment
+          uri: lb://department-service
+          predicates:
+            - Path=/symbiosis/department/**
+
+        - id: routToStudent
+          uri: lb://student-service
+          predicates:
+            - Path=/api/v1/symbiosis/student/**
+server:
+  port: 8765
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

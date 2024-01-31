@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: department-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/symbiosis
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+server:
+  port : 8082

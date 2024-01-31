@@ -1,0 +1,24 @@
+POST Request
+    {
+        "name": "Ruman",
+        "deptId": "ba3465a5-4962-4cc4-857f-35878b089c5a",
+        "address": {
+            "city": "city",
+            "state": "state",
+            "country": "India",
+            "pin": 431603
+        }
+    }
+
+PUT Request
+    {
+        "uuid": "96d3bf95-ef10-4ccb-b497-6f9805a246c4",
+        "name": "Rahil",
+        "address": {
+            "city": "city",
+            "state": "Maharashtra",
+            "country": "India",
+            "pin": 431603
+        },
+        "deptId": "f47c1f32-1c5d-453d-9a0e-afef5197a9d7"
+    }
