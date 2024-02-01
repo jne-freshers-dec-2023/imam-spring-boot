@@ -8,7 +8,6 @@ import java.util.UUID;
 @Component
 @Data
 public class UserResponse {
-    UUID id;
     String name;
     String role;
 }

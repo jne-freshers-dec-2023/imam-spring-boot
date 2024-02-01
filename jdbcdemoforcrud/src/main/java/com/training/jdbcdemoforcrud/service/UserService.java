@@ -14,9 +14,9 @@ public interface UserService {
 
     List<UserResponse> getAllUsers(WebRequest webRequest);
 
-    UserResponse getUser(UUID uuid, WebRequest webRequest);
+    UserResponse getUser(String name, WebRequest webRequest);
 
     UserResponse addUser(UserRequest userRequest, WebRequest webRequest);
 
-    String deleteUser(UUID uuid, WebRequest webRequest);
+    String deleteUser(String name, WebRequest webRequest);
 }

@@ -1,12 +1,12 @@
 package com.training.jdbcdemoforcrud.service.impl;
 
 import com.training.jdbcdemoforcrud.entity.User;
-import com.training.jdbcdemoforcrud.enums.UserRole;
 import com.training.jdbcdemoforcrud.exception.GlobalException;
 import com.training.jdbcdemoforcrud.model.request.UserRequest;
 import com.training.jdbcdemoforcrud.model.response.UserResponse;
 import com.training.jdbcdemoforcrud.repository.UserRepository;
 import com.training.jdbcdemoforcrud.service.UserService;
+import com.training.jdbcdemoforcrud.util.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +20,10 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    UserUtil userUtil;
+
     @Override
     public List<UserResponse> getAllUsers(WebRequest webRequest) {
         log.info("Retrieving All Users from users table");
@@ -27,7 +31,7 @@ public class UserServiceImpl implements UserService {
         if (!userList.isEmpty()){
             List<UserResponse> userResponseList=new ArrayList<>();
             for (User user:userList){
-                userResponseList.add(toUserResponse(user));
+                userResponseList.add(userUtil.toUserResponse(user));
             }
             return userResponseList;
         } else {
@@ -36,22 +40,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse getUser(UUID uuid, WebRequest webRequest) {
+    public UserResponse getUser(String name, WebRequest webRequest) {
         log.info("Retrieving a User from user table");
-        Optional<User> optionalUser=userRepository.findByUuid(uuid);
+        Optional<User> optionalUser=userRepository.findByName(name);
         if(optionalUser.isPresent()){
-            return toUserResponse(optionalUser.get());
+            return userUtil.toUserResponse(optionalUser.get());
         } else {
-            throw (new GlobalException("User not found with provided Id:" + uuid, HttpStatus.NOT_FOUND, new Date(), webRequest.getDescription(false)));
+            throw (new GlobalException("User not found with provided name:" + name, HttpStatus.NOT_FOUND, new Date(), webRequest.getDescription(false)));
         }
     }
 
     @Override
     public UserResponse addUser(UserRequest userRequest, WebRequest webRequest) {
         log.info("Adding new user to user table");
-        if(checkRole(userRequest.getRole().toUpperCase())) {
-            if (!userRepository.existsByNameAndPassword(userRequest.getUserName(),userRequest.getPassword())) {
-                return toUserResponse(userRepository.save(getUser(userRequest)));
+        if (userUtil.checkRole(userRequest.getRole().toUpperCase())) {
+            if (!userRepository.existsByName(userRequest.getUserName())) {
+                return userUtil.toUserResponse(userRepository.save(userUtil.getUser(userRequest)));
             } else {
                 throw new GlobalException("Provided Username is Not Available", HttpStatus.NOT_ACCEPTABLE, new Date(), webRequest.getDescription(false));
             }
@@ -61,43 +65,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String deleteUser(UUID uuid, WebRequest webRequest) {
+    public String deleteUser(String name, WebRequest webRequest) {
         log.info("Deleting a user form user table");
-        if (userRepository.existsByUuid(uuid)){
-            userRepository.deleteByUuid(uuid);
-            return "User Deleted with Provided id:"+uuid;
+        if (userRepository.existsByName(name)){
+            userRepository.deleteByName(name);
+            return "User Deleted with Provided name:"+name;
         } else {
-            throw (new GlobalException("User not found with provided Id:" + uuid, HttpStatus.NOT_FOUND, new Date(), webRequest.getDescription(false)));
+            throw (new GlobalException("User not found with provided Id:" + name, HttpStatus.NOT_FOUND, new Date(), webRequest.getDescription(false)));
         }
 
-    }
-
-    public User getUser(UserRequest userRequest){
-        log.info("Converting UserRequest to User");
-        User user=new User();
-        user.setName(userRequest.getUserName());
-        user.setPassword(userRequest.getPassword());
-        user.setRole(userRequest.getRole().toUpperCase());
-        return user;
-    }
-
-    public boolean checkRole(String role){
-        log.info("Checking provided role is Valid or not");
-        boolean avail=false;
-        for(UserRole userRole:UserRole.values()){
-            if (role.equals(userRole.name())) {
-                avail = true;
-                break;
-            }
-        }
-        return avail;
-    }
-    public UserResponse toUserResponse(User user){
-        log.info("Converting User to User Response");
-        UserResponse userResponse=new UserResponse();
-        userResponse.setId(user.getUuid());
-        userResponse.setName(user.getName());
-        userResponse.setRole(user.getRole());
-        return userResponse;
     }
 }

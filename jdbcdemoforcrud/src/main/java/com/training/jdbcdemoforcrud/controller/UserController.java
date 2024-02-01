@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/collage/admin")
@@ -25,8 +24,8 @@ public class UserController {
     }
 
     @GetMapping(path = "/single")
-    public ResponseEntity<UserResponse> getUser(WebRequest webRequest, @RequestParam(name = "uuid") UUID uuid) {
-        return (new ResponseEntity<>(userService.getUser(uuid, webRequest), HttpStatus.OK));
+    public ResponseEntity<UserResponse> getUser(WebRequest webRequest, @RequestParam(name = "name") String name) {
+        return (new ResponseEntity<>(userService.getUser(name, webRequest), HttpStatus.OK));
     }
 
     @PostMapping(path = "/add")
@@ -35,8 +34,8 @@ public class UserController {
     }
 
     @DeleteMapping(path = "/delete")
-    public ResponseEntity<String> deleteUser(WebRequest webRequest, @RequestParam(name = "uuid") UUID uuid) {
-        return (new ResponseEntity<>(userService.deleteUser(uuid, webRequest), HttpStatus.OK));
+    public ResponseEntity<String> deleteUser(WebRequest webRequest, @RequestParam(name = "uuid") String name) {
+        return (new ResponseEntity<>(userService.deleteUser(name, webRequest), HttpStatus.OK));
     }
 
 }

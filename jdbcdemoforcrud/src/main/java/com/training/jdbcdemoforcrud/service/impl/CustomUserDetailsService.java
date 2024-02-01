@@ -15,15 +15,15 @@ import java.util.Optional;
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
-    @Autowired
-    PasswordEncoder passwordEncoder;
+//    @Autowired
+//    PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.findByName(username);
         if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            return org.springframework.security.core.userdetails.User.builder().username(user.getName()).password(passwordEncoder.encode(user.getPassword())).roles(user.getRole()).build();
+            return optionalUser.get();
+            //return org.springframework.security.core.userdetails.User.builder().username(user.getName()).password(passwordEncoder.encode(user.getPassword())).roles(user.getRole()).build();
         } else {
             throw (new UsernameNotFoundException("Invalid UserName And Password "));
         }

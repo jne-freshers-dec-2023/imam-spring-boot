@@ -36,15 +36,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 userName = this.jwtHelper.getUserNameFromToken(token);
             } catch (IllegalArgumentException e) {
                 System.err.println("Illegal Argument while fetching the username !!");
-                e.printStackTrace();
+                e.fillInStackTrace();
             } catch (ExpiredJwtException e) {
                 System.err.println("Given jwt token is expired !!");
-                e.printStackTrace();
+                e.fillInStackTrace();
             } catch (MalformedJwtException e) {
                 System.err.println("Some changed has done in token !! Invalid Token");
-                e.printStackTrace();
+                e.fillInStackTrace();
             } catch (Exception e) {
-                e.printStackTrace();
+                e.fillInStackTrace();
 
             }
 
